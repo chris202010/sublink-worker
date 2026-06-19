@@ -1,15 +1,17 @@
 FROM node:22-bookworm-slim AS builder
+
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
 COPY src ./src
 COPY public ./public
 
 RUN npm run build:node
 
-FROM node:20-alpine AS runner
+FROM node:22-bookworm-slim AS runner
+
 WORKDIR /app
 
 ENV NODE_ENV=production
